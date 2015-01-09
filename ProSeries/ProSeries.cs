@@ -17,7 +17,7 @@ namespace ProSeries
                 Player = ObjectManager.Player;
 
                 //Print the welcome message
-                Game.PrintChat("Pro $€ri€s$ Loaded!");
+                Game.PrintChat("Pro Series Loaded!");
 
                 //Load the menu.
                 Config = new Menu("ProSeries", "ProSeries", true);
