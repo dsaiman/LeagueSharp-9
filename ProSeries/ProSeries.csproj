@@ -60,7 +60,6 @@
     <Compile Include="Champions\_Ashe.cs" />
     <Compile Include="Champions\_Caitlyn.cs" />
     <Compile Include="Champions\_Corki.cs" />
-    <Compile Include="Champions\Ezreal.cs" />
     <Compile Include="Champions\_Graves.cs" />
     <Compile Include="Champions\Jinx.cs" />
     <Compile Include="Champions\_KogMaw.cs" />
@@ -70,7 +69,6 @@
     <Compile Include="Champions\_Tristana.cs" />
     <Compile Include="Champions\_Twitch.cs" />
     <Compile Include="Champions\_Varus.cs" />
-    <Compile Include="Champions\Vayne.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProSeries.cs" />
