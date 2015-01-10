@@ -7,7 +7,7 @@ namespace ProSeries.Utils.Items
     {
         internal override int Id
         {
-            get { return 3144; }
+            get { return 3142; }
         }
 
         internal override string Name
@@ -28,7 +28,7 @@ namespace ProSeries.Utils.Items
 
             if (targetHero.IsValidTarget())
             {
-                LeagueSharp.Common.Items.UseItem(Id, targetHero);
+                LeagueSharp.Common.Items.UseItem(Id);
             }
         }
     }
