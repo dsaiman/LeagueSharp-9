@@ -28,7 +28,7 @@ namespace ProSeries.Utils.Items
 
             if (targetHero.IsValidTarget())
             {
-                LeagueSharp.Common.Items.UseItem(Id);
+                LeagueSharp.Common.Items.UseItem(Id, ProSeries.Player);
             }
         }
     }
