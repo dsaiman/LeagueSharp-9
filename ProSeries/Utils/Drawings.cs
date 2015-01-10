@@ -27,7 +27,7 @@ namespace ProSeries.Utils
 
                 if (c.Active)
                 {
-                    Utility.DrawCircle(ProSeries.Player.Position, range, c.Color);
+                    Render.Circle.DrawCircle(ProSeries.Player.Position, range, c.Color);
                 }
             }
         }

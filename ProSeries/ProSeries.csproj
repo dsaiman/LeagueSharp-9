@@ -74,8 +74,8 @@
     <Compile Include="ProSeries.cs" />
     <Compile Include="Utils\Drawings.cs" />
     <Compile Include="Utils\ItemsManager.cs" />
-    <Compile Include="Utils\Items\BOTRK.cs" />
     <Compile Include="Utils\Items\Item.cs" />
+    <Compile Include="Utils\Items\_3153.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

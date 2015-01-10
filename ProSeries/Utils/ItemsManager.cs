@@ -18,12 +18,14 @@ namespace ProSeries.Utils
             Game.OnGameUpdate += Game_OnGameUpdate;
         }
 
-        public static void Initialize()
+        public static void Load()
         {
             const string @namespace = "ProSeries.Utils.Items";
+
             var q = from t in Assembly.GetExecutingAssembly().GetTypes()
                     where t.IsClass && t.Name != "Item" && t.Namespace == @namespace
                     select t;
+
             q.ToList().ForEach(t => LoadItem((Item) Activator.CreateInstance(t), t.Name));
         }
 
