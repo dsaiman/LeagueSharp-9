@@ -11,11 +11,15 @@ namespace ProSeries.Utils
     public static class ItemsManager
     {
         private static readonly List<Item> Items = new List<Item>();
-        private static Menu ItemsSubMenu { get { return ProSeries.Config.SubMenu("Items"); } }
 
         static ItemsManager()
         {
             Game.OnGameUpdate += Game_OnGameUpdate;
+        }
+
+        private static Menu ItemsSubMenu
+        {
+            get { return ProSeries.Config.SubMenu("Items"); }
         }
 
         public static void Load()
@@ -23,14 +27,19 @@ namespace ProSeries.Utils
             const string @namespace = "ProSeries.Utils.Items";
 
             var q = from t in Assembly.GetExecutingAssembly().GetTypes()
-                    where t.IsClass && t.Name != "Item" && t.Namespace == @namespace
-                    select t;
+                where t.IsClass && t.Name != "Item" && t.Namespace == @namespace
+                select t;
 
             q.ToList().ForEach(t => LoadItem((Item) Activator.CreateInstance(t)));
         }
 
-        static void Game_OnGameUpdate(EventArgs args)
+        private static void Game_OnGameUpdate(EventArgs args)
         {
+            if (ProSeries.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            {
+                return;
+            }
+
             Items.Where(item => item.IsActive).ToList().ForEach(item => item.Use());
         }
 
