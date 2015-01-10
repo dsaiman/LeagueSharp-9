@@ -27,9 +27,9 @@ namespace ProSeries
 
                 //Add the orbwalking.
                 Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
-
+                
                 //Add ADC items usage.
-                Utils.Items.AddToMenu(Config.SubMenu("Items"));
+                Utils.ItemsManager.Initialize();
 
                 //Check if the champion is supported
                 try

@@ -34,7 +34,7 @@ namespace ProSeries.Utils
 
         internal static void AddRangeCircle(string name, object spellOrCallBack)
         {
-            ProSeries.Config.SubMenu("Drawings").AddItem(new MenuItem(name, name, true).SetValue(new Circle(true, Color.White, 100)));
+            ProSeries.Config.SubMenu("Drawings").AddItem(new MenuItem(name, name, true).SetValue(new Circle(true, Color.White)));
             RangeCircles.Add(name, spellOrCallBack);
         }
     }
