@@ -15,20 +15,31 @@ namespace ProSeries.Utils.Items
             get { return "Blade of the Ruined King"; }
         }
 
-        internal override int Range
+        internal override float Range
         {
             get { return 450; }
         }
 
         public override void Use()
         {
-            var target = ProSeries.Orbwalker.GetTarget() as Obj_AI_Base;
 
-            if (target is Obj_AI_Hero &&
-                ProSeries.Player.Health + ProSeries.Player.GetItemDamage(target, Damage.DamageItems.Botrk) <
+            var target = ProSeries.Orbwalker.GetTarget();
+
+            if (!target.IsValid<Obj_AI_Hero>())
+            {
+                return;
+            }
+
+            var targetHero = (Obj_AI_Hero) target;
+
+            if (ProSeries.Player.Distance(targetHero, true) > Range*Range)
+            {
+                return;
+            }
+            if (ProSeries.Player.Health + ProSeries.Player.GetItemDamage(targetHero, Damage.DamageItems.Botrk) <
                 ProSeries.Player.MaxHealth)
             {
-                LeagueSharp.Common.Items.UseItem(Id, target);
+                LeagueSharp.Common.Items.UseItem(Id, targetHero);
             }
         }
     }

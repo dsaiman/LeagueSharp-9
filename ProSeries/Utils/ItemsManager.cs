@@ -26,7 +26,7 @@ namespace ProSeries.Utils
                     where t.IsClass && t.Name != "Item" && t.Namespace == @namespace
                     select t;
 
-            q.ToList().ForEach(t => LoadItem((Item) Activator.CreateInstance(t), t.Name));
+            q.ToList().ForEach(t => LoadItem((Item) Activator.CreateInstance(t)));
         }
 
         static void Game_OnGameUpdate(EventArgs args)
@@ -34,9 +34,9 @@ namespace ProSeries.Utils
             Items.Where(item => item.IsActive).ToList().ForEach(item => item.Use());
         }
 
-        public static void LoadItem(Item item, string name)
+        public static void LoadItem(Item item)
         {
-            Items.Add(item.CreateMenuItem(ItemsSubMenu, name));
+            Items.Add(item.CreateMenuItem(ItemsSubMenu));
         }
     }
 }

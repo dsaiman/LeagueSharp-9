@@ -1,5 +1,4 @@
-﻿using LeagueSharp;
-using LeagueSharp.Common;
+﻿using LeagueSharp.Common;
 
 namespace ProSeries.Utils.Items
 {
@@ -9,25 +8,21 @@ namespace ProSeries.Utils.Items
 
         internal virtual string Name { get; set; }
 
-        internal virtual int Range { get; set; }
+        internal virtual float Range { get; set; }
 
         public bool IsActive
         {
             get
             {
-                var target = ProSeries.Orbwalker.GetTarget() as Obj_AI_Base;
-
-                return target != null && ProSeries.Player.Distance(target, true) <= Range * Range &&
-                       LeagueSharp.Common.Items.CanUseItem(Id) && MenuItem.GetValue<bool>();
+                return LeagueSharp.Common.Items.CanUseItem(Id) && MenuItem.GetValue<bool>();
             }
         }
 
         public MenuItem MenuItem { get; private set; }
 
-        public Item CreateMenuItem(Menu parent, string menuItemName)
+        public Item CreateMenuItem(Menu parent)
         {
-            MenuItem = parent.AddItem(new MenuItem(menuItemName, "Use " + menuItemName).SetValue(true));
-
+            MenuItem = parent.AddItem(new MenuItem(Name, "Use " + Name).SetValue(true));
             return this;
         }
 
