@@ -72,8 +72,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ProSeries.cs" />
-    <Compile Include="Utils\Drawings.cs" />
-    <Compile Include="Utils\ItemsManager.cs" />
+    <Compile Include="Utils\DrawManager.cs" />
+    <Compile Include="Utils\ItemManager.cs" />
     <Compile Include="Utils\Items\Item.cs" />
     <Compile Include="Utils\Items\_3142.cs" />
     <Compile Include="Utils\Items\_3144.cs" />

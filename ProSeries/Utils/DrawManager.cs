@@ -5,11 +5,11 @@ using LeagueSharp.Common;
 using Color = System.Drawing.Color;
 namespace ProSeries.Utils
 {
-    static class Drawings
+    static class DrawManager
     {
         private static readonly Dictionary<string, object> RangeCircles = new Dictionary<string, object>();
 
-        static Drawings()
+        static DrawManager()
         {
             Drawing.OnDraw += DrawingOnOnDraw;
         }

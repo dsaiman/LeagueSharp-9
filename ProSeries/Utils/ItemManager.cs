@@ -8,11 +8,11 @@ using ProSeries.Utils.Items;
 
 namespace ProSeries.Utils
 {
-    public static class ItemsManager
+    public static class ItemManager
     {
         private static readonly List<Item> Items = new List<Item>();
 
-        static ItemsManager()
+        static ItemManager()
         {
             Game.OnGameUpdate += Game_OnGameUpdate;
         }

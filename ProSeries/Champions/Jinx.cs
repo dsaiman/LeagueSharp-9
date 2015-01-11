@@ -37,7 +37,7 @@ namespace ProSeries.Champions
                             .AddItem(new MenuItem("MaxRDist", "MaxDistance", true).SetValue(new Slider(1500, 0, 3000)));
 
             //Drawings
-            Utils.Drawings.AddRangeCircle("W Range", W);
+            Utils.DrawManager.AddRangeCircle("W Range", W);
 
             //Events
             Game.OnGameUpdate += Game_OnGameUpdate;

@@ -36,7 +36,7 @@ namespace ProSeries.Champions
                 .AddItem(new MenuItem("UseE", "Use E against targetted spells", true).SetValue(true));
 
             //Drawings
-            Utils.Drawings.AddRangeCircle("Q Range", QCombo);
+            Utils.DrawManager.AddRangeCircle("Q Range", QCombo);
 
 
             //Events
