@@ -78,6 +78,7 @@
     <Compile Include="Utils\Items\_3142.cs" />
     <Compile Include="Utils\Items\_3144.cs" />
     <Compile Include="Utils\Items\_3153.cs" />
+    <Compile Include="Utils\Items\_3184.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
