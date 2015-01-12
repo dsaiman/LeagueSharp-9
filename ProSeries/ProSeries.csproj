@@ -71,18 +71,34 @@
     <Compile Include="Champions\_Varus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ProSeries.cs" />
-    <Compile Include="Utils\DrawManager.cs" />
+    <Compile Include="Utils\Drawings\Circles.cs" />
     <Compile Include="Utils\ItemManager.cs" />
     <Compile Include="Utils\Items\Item.cs" />
     <Compile Include="Utils\Items\_3142.cs" />
     <Compile Include="Utils\Items\_3144.cs" />
     <Compile Include="Utils\Items\_3153.cs" />
     <Compile Include="Utils\Items\_3184.cs" />
+    <Compile Include="Utils\Drawings\Crosshair.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Crosshair.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

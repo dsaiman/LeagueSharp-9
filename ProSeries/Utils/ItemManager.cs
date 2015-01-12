@@ -8,7 +8,7 @@ using ProSeries.Utils.Items;
 
 namespace ProSeries.Utils
 {
-    public static class ItemManager
+    internal static class ItemManager
     {
         private static readonly List<Item> Items = new List<Item>();
 
@@ -22,7 +22,7 @@ namespace ProSeries.Utils
             get { return ProSeries.Config.SubMenu("Items"); }
         }
 
-        public static void Load()
+        internal static void Load()
         {
             const string @namespace = "ProSeries.Utils.Items";
 
@@ -43,7 +43,7 @@ namespace ProSeries.Utils
             Items.Where(item => item.IsActive).ToList().ForEach(item => item.Use());
         }
 
-        public static void LoadItem(Item item)
+        private static void LoadItem(Item item)
         {
             Items.Add(item.CreateMenuItem(ItemsSubMenu));
         }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using LeagueSharp;
 using LeagueSharp.Common;
-using Color = System.Drawing.Color;
 
-namespace ProSeries.Utils
+namespace ProSeries.Utils.Drawings
 {
-    public static class DrawManager
+    public static class Circles
     {
         private static readonly Dictionary<string, object> RangeCircles = new Dictionary<string, object>();
 
-        static DrawManager()
+        static Circles()
         {
             Drawing.OnDraw += DrawingOnOnDraw;
         }
@@ -24,7 +24,7 @@ namespace ProSeries.Utils
 
                 if (circle.Value is Spell)
                 {
-                    range = ((Spell)circle.Value).Range;
+                    range = ((Spell) circle.Value).Range;
                 }
 
                 if (c.Active)
@@ -34,9 +34,11 @@ namespace ProSeries.Utils
             }
         }
 
-        internal static void AddRangeCircle(string name, object spellOrCallBack)
+        internal static void Add(string name, object spellOrCallBack)
         {
-            ProSeries.Config.SubMenu("Drawings").AddItem(new MenuItem(name, name, true).SetValue(new Circle(true, Color.White)));
+            ProSeries.Config.SubMenu("Drawings")
+                .AddItem(new MenuItem(name, name, true).SetValue(new Circle(true, Color.White)));
+
             RangeCircles.Add(name, spellOrCallBack);
         }
     }

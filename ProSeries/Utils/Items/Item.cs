@@ -5,17 +5,12 @@ namespace ProSeries.Utils.Items
     public class Item
     {
         internal virtual int Id { get; set; }
-
         internal virtual string Name { get; set; }
-
         internal virtual float Range { get; set; }
 
         public bool IsActive
         {
-            get
-            {
-                return LeagueSharp.Common.Items.CanUseItem(Id) && MenuItem.GetValue<bool>();
-            }
+            get { return LeagueSharp.Common.Items.CanUseItem(Id) && MenuItem.GetValue<bool>(); }
         }
 
         public MenuItem MenuItem { get; private set; }

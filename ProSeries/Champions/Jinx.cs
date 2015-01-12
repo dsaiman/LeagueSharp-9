@@ -2,6 +2,7 @@
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
@@ -28,16 +29,16 @@ namespace ProSeries.Champions
 
             ProSeries.Config.SubMenu("E")
                 .AddItem(new MenuItem("AutoEImmobile", "Use E on immobile targets", true).SetValue(true));
-            ProSeries.Config.SubMenu("E").AddItem(new MenuItem("AutoEClose", "Use E on closetargets", true).SetValue(true));
+            ProSeries.Config.SubMenu("E")
+                .AddItem(new MenuItem("AutoEClose", "Use E on closetargets", true).SetValue(true));
 
 
+            ProSeries.Config.SubMenu("R").AddItem(new MenuItem("UseR", "Use R", true).SetValue(true));
             ProSeries.Config.SubMenu("R")
-                .AddItem(new MenuItem("UseR", "Use R", true).SetValue(true));
-            ProSeries.Config.SubMenu("R")
-                            .AddItem(new MenuItem("MaxRDist", "MaxDistance", true).SetValue(new Slider(1500, 0, 3000)));
+                .AddItem(new MenuItem("MaxRDist", "MaxDistance", true).SetValue(new Slider(1500, 0, 3000)));
 
             //Drawings
-            Utils.DrawManager.AddRangeCircle("W Range", W);
+            Circles.Add("W Range", W);
 
             //Events
             Game.OnGameUpdate += Game_OnGameUpdate;
@@ -57,18 +58,19 @@ namespace ProSeries.Champions
             }
 
             var targetAsHero = (Obj_AI_Hero) target;
-            if (ProSeries.Player.GetSpellDamage(targetAsHero, SpellSlot.W) / W.Delay > ProSeries.Player.GetAutoAttackDamage(targetAsHero, true) * (1 / ProSeries.Player.AttackDelay) )
+            if (ProSeries.Player.GetSpellDamage(targetAsHero, SpellSlot.W) / W.Delay >
+                ProSeries.Player.GetAutoAttackDamage(targetAsHero, true) * (1 / ProSeries.Player.AttackDelay))
             {
                 W.Cast(targetAsHero);
             }
         }
 
-        static void Game_OnGameUpdate(EventArgs args)
+        private static void Game_OnGameUpdate(EventArgs args)
         {
             if ((ProSeries.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                ProSeries.Config.SubMenu("W").Item("UseWCombo", true).GetValue<bool>() ||
-                ProSeries.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed &&
-                ProSeries.Config.SubMenu("W").Item("UseWHarass", true).GetValue<bool>()) && W.IsReady())
+                 ProSeries.Config.SubMenu("W").Item("UseWCombo", true).GetValue<bool>() ||
+                 ProSeries.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed &&
+                 ProSeries.Config.SubMenu("W").Item("UseWHarass", true).GetValue<bool>()) && W.IsReady())
             {
                 var target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
                 if (target != null && ProSeries.Orbwalker.GetTarget() == null)
@@ -98,9 +100,10 @@ namespace ProSeries.Champions
                 var maxDistance = ProSeries.Config.SubMenu("R").Item("MaxRDist", true).GetValue<Slider>().Value;
                 foreach (var target in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsValidTarget(maxDistance)))
                 {
-                    var aaDamage = Orbwalking.InAutoAttackRange(target) ? ProSeries.Player.GetAutoAttackDamage(target, true) : 0;
-                    if (target.Health - aaDamage <=
-                        ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
+                    var aaDamage = Orbwalking.InAutoAttackRange(target)
+                        ? ProSeries.Player.GetAutoAttackDamage(target, true)
+                        : 0;
+                    if (target.Health - aaDamage <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
                     {
                         R.Cast(target);
                     }

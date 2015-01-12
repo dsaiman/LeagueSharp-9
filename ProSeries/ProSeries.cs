@@ -1,6 +1,8 @@
 ﻿using System;
 using LeagueSharp;
 using LeagueSharp.Common;
+using ProSeries.Utils;
+using ProSeries.Utils.Drawings;
 
 namespace ProSeries
 {
@@ -27,9 +29,12 @@ namespace ProSeries
 
                 //Add the orbwalking.
                 Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
-                
+
                 //Add ADC items usage.
-                Utils.ItemManager.Load();
+                ItemManager.Load();
+
+                //Load the crosshair
+                Crosshair.Load();
 
                 //Check if the champion is supported
                 try

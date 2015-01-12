@@ -2,6 +2,7 @@
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
@@ -20,7 +21,7 @@ namespace ProSeries.Champions
 
             QHarass = new Spell(SpellSlot.Q, 1000);
             QHarass.SetSkillshot(0.25f, 90f, 1350f, true, SkillshotType.SkillshotLine);
-            
+
             W = new Spell(SpellSlot.W);
 
             E = new Spell(SpellSlot.E);
@@ -28,7 +29,8 @@ namespace ProSeries.Champions
             //Spell usage.
             ProSeries.Config.SubMenu("Q").AddItem(new MenuItem("UseQCombo", "Use Q on combo", true).SetValue(true));
             ProSeries.Config.SubMenu("Q").AddItem(new MenuItem("UseQHarass", "Use Q on harass", true).SetValue(true));
-            ProSeries.Config.SubMenu("Q").AddItem(new MenuItem("AutoQImmobile", "Auto Q immobile targets", true).SetValue(true));
+            ProSeries.Config.SubMenu("Q")
+                .AddItem(new MenuItem("AutoQImmobile", "Auto Q immobile targets", true).SetValue(true));
 
             ProSeries.Config.SubMenu("W").AddItem(new MenuItem("UseW", "Use W against champions", true).SetValue(true));
 
@@ -36,7 +38,7 @@ namespace ProSeries.Champions
                 .AddItem(new MenuItem("UseE", "Use E against targetted spells", true).SetValue(true));
 
             //Drawings
-            Utils.DrawManager.AddRangeCircle("Q Range", QCombo);
+            Circles.Add("Q Range", QCombo);
 
 
             //Events
@@ -45,7 +47,7 @@ namespace ProSeries.Champions
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Hero_OnProcessSpellCast;
         }
 
-        static void Obj_AI_Hero_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        private static void Obj_AI_Hero_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (!sender.IsValid<Obj_AI_Hero>())
             {
@@ -87,7 +89,7 @@ namespace ProSeries.Champions
             {
                 return;
             }
-            
+
             if (ProSeries.Config.SubMenu("W").Item("UseW", true).GetValue<bool>())
             {
                 W.Cast();

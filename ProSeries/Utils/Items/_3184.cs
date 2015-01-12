@@ -24,7 +24,7 @@ namespace ProSeries.Utils.Items
                 return;
             }
 
-            var targetHero = (Obj_AI_Hero)target;
+            var targetHero = (Obj_AI_Hero) target;
 
             if (targetHero.IsValidTarget())
             {
