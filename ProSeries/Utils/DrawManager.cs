@@ -6,7 +6,7 @@ using Color = System.Drawing.Color;
 
 namespace ProSeries.Utils
 {
-    static class DrawManager
+    public static class DrawManager
     {
         private static readonly Dictionary<string, object> RangeCircles = new Dictionary<string, object>();
 
@@ -21,6 +21,7 @@ namespace ProSeries.Utils
             {
                 var c = ProSeries.Config.SubMenu("Drawings").Item(circle.Key, true).GetValue<Circle>();
                 var range = 0f;
+
                 if (circle.Value is Spell)
                 {
                     range = ((Spell)circle.Value).Range;
