@@ -25,16 +25,16 @@ namespace ProSeries
                 Config = new Menu("ProSeries", "ProSeries", true);
 
                 //Add the target selector.
-                TargetSelector.AddToMenu(Config.SubMenu("Target selector"));
+                TargetSelector.AddToMenu(Config.SubMenu("Selector"));
 
                 //Add the orbwalking.
-                Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
-
-                //Add ADC items usage.
-                ItemManager.Load();
+                Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalker"));
 
                 //Load the crosshair
                 Crosshair.Load();
+
+                //Add ADC items usage.
+                //ItemManager.Load();
 
                 //Check if the champion is supported
                 try
@@ -54,5 +54,17 @@ namespace ProSeries
                 Console.WriteLine(e);
             }
         }
+
+        internal static bool EnoughMana(bool active, int manasetting)
+        {
+            var myMana = Player.Mana/Player.MaxMana*100;
+            return active && myMana > manasetting;
+        }
+
+        internal static string[] JungleCreeps =
+        {
+            "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
+            "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp"
+        };
     }
 }

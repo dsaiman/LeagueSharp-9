@@ -15,7 +15,6 @@ namespace ProSeries.Champions
 
         public static void Load()
         {
-            //Load spells
             QCombo = new Spell(SpellSlot.Q, 1250);
             QCombo.SetSkillshot(0.25f, 90f, 1350f, false, SkillshotType.SkillshotLine);
 
@@ -23,26 +22,38 @@ namespace ProSeries.Champions
             QHarass.SetSkillshot(0.25f, 90f, 1350f, true, SkillshotType.SkillshotLine);
 
             W = new Spell(SpellSlot.W);
-
             E = new Spell(SpellSlot.E);
 
-            //Spell usage.
-            ProSeries.Config.SubMenu("Q").AddItem(new MenuItem("UseQCombo", "Use Q on combo", true).SetValue(true));
-            ProSeries.Config.SubMenu("Q").AddItem(new MenuItem("UseQHarass", "Use Q on harass", true).SetValue(true));
-            ProSeries.Config.SubMenu("Q")
-                .AddItem(new MenuItem("AutoQImmobile", "Auto Q immobile targets", true).SetValue(true));
-
-            ProSeries.Config.SubMenu("W").AddItem(new MenuItem("UseW", "Use W against champions", true).SetValue(true));
-
-            ProSeries.Config.SubMenu("E")
-                .AddItem(new MenuItem("UseE", "Use E against targetted spells", true).SetValue(true));
-
-            //Drawings
+            // Drawings
             Circles.Add("Q Range", QCombo);
+            var cMenu = new Menu("Combo", "combo");
+            cMenu.AddItem(new MenuItem("combomana", "Minimum mana %")).SetValue(new Slider(5));
+            cMenu.AddItem(new MenuItem("usecomboq", "Use Boomerang", true).SetValue(true));
+            cMenu.AddItem(new MenuItem("usecombow", "Use Ricochet", true).SetValue(true));
+            cMenu.AddItem(new MenuItem("usecomboe", "Use Spell Shield", true).SetValue(true));
+            cMenu.AddItem(new MenuItem("usecombo", "Combo (active)")).SetValue(new KeyBind(32, KeyBindType.Press));
+            ProSeries.Config.AddSubMenu(cMenu);
 
+            var hMenu = new Menu("Harass", "harass");
+            hMenu.AddItem(new MenuItem("harassmana", "Minimum mana %")).SetValue(new Slider(55));
+            hMenu.AddItem(new MenuItem("useharassq", "Use Boomerang", true).SetValue(true));
+            hMenu.AddItem(new MenuItem("useharassw", "Use Ricochet", true).SetValue(true));
+            hMenu.AddItem(new MenuItem("useharass", "Harass (active)")).SetValue(new KeyBind(67, KeyBindType.Press));
+            ProSeries.Config.AddSubMenu(hMenu);
 
-            //Events
-            Game.OnGameUpdate += Game_OnGameUpdate;
+            var wMenu = new Menu("Farming", "farming");
+            wMenu.AddItem(new MenuItem("clearmana", "Minimum mana %")).SetValue(new Slider(35));
+            wMenu.AddItem(new MenuItem("useclearw", "Use Ricochet", true).SetValue(true));
+            wMenu.AddItem(new MenuItem("useclear", "Wave/Jungle (active)")).SetValue(new KeyBind(86, KeyBindType.Press));
+            ProSeries.Config.AddSubMenu(wMenu);
+
+            var mMenu = new Menu("Misc", "misc");
+            mMenu.AddItem(new MenuItem("useqimm", "Use Q on Immobile", true)).SetValue(true);
+            mMenu.AddItem(new MenuItem("useqdash", "Use Q on Dashing", true)).SetValue(true);
+            ProSeries.Config.AddSubMenu(mMenu);
+
+            // Events
+            Game.OnUpdate += Game_OnGameUpdate;
             Orbwalking.AfterAttack += Orbwalking_OnAfterAttack;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Hero_OnProcessSpellCast;
         }
@@ -54,7 +65,7 @@ namespace ProSeries.Champions
                 return;
             }
 
-            if (!ProSeries.Config.SubMenu("E").Item("UseE", true).GetValue<bool>())
+            if (!ProSeries.Config.Item("usecomboe", true).GetValue<bool>())
             {
                 return;
             }
@@ -85,38 +96,73 @@ namespace ProSeries.Champions
                 return;
             }
 
-            if (!target.IsValid<Obj_AI_Hero>())
+            if (ProSeries.EnoughMana(
+                ProSeries.Config.Item("usecombo").GetValue<KeyBind>().Active,
+                ProSeries.Config.Item("combomana").GetValue<Slider>().Value))
             {
-                return;
+                if (ProSeries.Config.Item("usecombow", true).GetValue<bool>() &&
+                    target.IsValid<Obj_AI_Hero>())
+                {
+                    W.Cast();
+                }
             }
 
-            if (ProSeries.Config.SubMenu("W").Item("UseW", true).GetValue<bool>())
+            if (ProSeries.EnoughMana(
+                ProSeries.Config.Item("useharass").GetValue<KeyBind>().Active,
+                ProSeries.Config.Item("harassmana").GetValue<Slider>().Value))
             {
-                W.Cast();
+                if (ProSeries.Config.Item("useharassw", true).GetValue<bool>() &&
+                    target.IsValid<Obj_AI_Hero>())
+                {
+                    W.Cast();
+                }
+            }
+
+            if (ProSeries.EnoughMana(
+                ProSeries.Config.Item("useclear").GetValue<KeyBind>().Active,
+                ProSeries.Config.Item("clearmana").GetValue<Slider>().Value))
+            {
+                if (ProSeries.Config.Item("useclearw", true).GetValue<bool>() &&
+                    target.IsValid<Obj_AI_Minion>())
+                {
+                    W.Cast();
+                }
             }
         }
 
         internal static void Game_OnGameUpdate(EventArgs args)
         {
-            if (ProSeries.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                ProSeries.Config.SubMenu("Q").Item("UseQCombo", true).GetValue<bool>())
+            if (ProSeries.EnoughMana(
+                ProSeries.Config.Item("usecombo").GetValue<KeyBind>().Active,
+                ProSeries.Config.Item("combomana").GetValue<Slider>().Value))
             {
-                CastQ(false);
-                return;
+                var target = TargetSelector.GetTarget(QCombo.Range, TargetSelector.DamageType.Physical);
+                if (target.IsValidTarget() && ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
+                {
+                    CastQ(false);
+                }
             }
 
-            if (ProSeries.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed &&
-                ProSeries.Config.SubMenu("Q").Item("UseQHarass", true).GetValue<bool>())
+            if (ProSeries.EnoughMana(
+                ProSeries.Config.Item("useharass").GetValue<KeyBind>().Active,
+                ProSeries.Config.Item("harassmana").GetValue<Slider>().Value))
             {
-                CastQ(true);
+                var target = TargetSelector.GetTarget(QHarass.Range, TargetSelector.DamageType.Physical);
+                if (target.IsValidTarget() && ProSeries.Config.Item("useharassq", true).GetValue<bool>())
+                {
+                    CastQ(false);
+                }
             }
 
-            if (ProSeries.Config.SubMenu("Q").Item("AutoQImmobile", true).GetValue<bool>() && QCombo.IsReady())
+            if (QCombo.IsReady())
             {
                 foreach (var target in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsValidTarget(QCombo.Range)))
                 {
-                    QCombo.CastIfHitchanceEquals(target, HitChance.Immobile);
-                    QCombo.CastIfHitchanceEquals(target, HitChance.Dashing);
+                    if (ProSeries.Config.Item("useqimm", true).GetValue<bool>())
+                        QCombo.CastIfHitchanceEquals(target, HitChance.Immobile);
+
+                    if (ProSeries.Config.Item("useqdash", true).GetValue<bool>())
+                        QCombo.CastIfHitchanceEquals(target, HitChance.Dashing);
                 }
             }
         }
