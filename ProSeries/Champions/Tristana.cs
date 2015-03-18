@@ -10,7 +10,7 @@ namespace ProSeries.Champions
         internal static Spell Q;
         internal static Spell E;
         internal static Spell R;
-        internal static float RealQ;
+        internal static float TrueRange;
         public static void Load()
         {
             // Set spels
@@ -23,7 +23,7 @@ namespace ProSeries.Champions
             {
                 if (ProSeries.Config.Item("drawq").GetValue<Circle>().Active)
                 {
-                    Render.Circle.DrawCircle(ProSeries.Player.Position, RealQ,
+                    Render.Circle.DrawCircle(ProSeries.Player.Position, TrueRange,
                         ProSeries.Config.Item("drawq").GetValue<Circle>().Color);
                 }
             };
@@ -70,7 +70,7 @@ namespace ProSeries.Champions
             if (ProSeries.Config.Item("usecombo").GetValue<KeyBind>().Active &&
                 ProSeries.Config.Item("usergap", true).GetValue<bool>())
             {
-                if (gapcloser.Sender.IsValidTarget(RealQ))
+                if (gapcloser.Sender.IsValidTarget(TrueRange))
                     R.CastOnUnit(gapcloser.Sender);
             }
         }
@@ -126,13 +126,13 @@ namespace ProSeries.Champions
             }
         }
 
-        static void Game_OnUpdate(EventArgs args)
+        internal static void Game_OnUpdate(EventArgs args)
         {
-            RealQ = 545 + (7*ProSeries.Player.Level);
+            TrueRange = 545 + (7*ProSeries.Player.Level);
 
             if (R.IsReady())
             {
-                var target = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
+                var target = TargetSelector.GetTarget(TrueRange, TargetSelector.DamageType.Physical);
                 if (target.IsValidTarget() && ProSeries.Config.Item("usecombor", true).GetValue<bool>())
                 {
                     if (target.Health <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))

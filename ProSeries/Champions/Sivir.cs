@@ -26,11 +26,13 @@ namespace ProSeries.Champions
 
             // Drawings
             Circles.Add("Q Range", QCombo);
+
+            // Spell usage
             var cMenu = new Menu("Combo", "combo");
             cMenu.AddItem(new MenuItem("combomana", "Minimum mana %")).SetValue(new Slider(5));
             cMenu.AddItem(new MenuItem("usecomboq", "Use Boomerang", true).SetValue(true));
             cMenu.AddItem(new MenuItem("usecombow", "Use Ricochet", true).SetValue(true));
-            cMenu.AddItem(new MenuItem("usecomboe", "Use Spell Shield", true).SetValue(true));
+            cMenu.AddItem(new MenuItem("usecomboe", "Use Spell Shield (Semi)", true).SetValue(true));
             cMenu.AddItem(new MenuItem("usecombo", "Combo (active)")).SetValue(new KeyBind(32, KeyBindType.Press));
             ProSeries.Config.AddSubMenu(cMenu);
 

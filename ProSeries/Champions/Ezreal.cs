@@ -24,6 +24,9 @@ namespace ProSeries.Champions
             R = new Spell(SpellSlot.R, 2500);
             R.SetSkillshot(1f, 160f, 2000f, false, SkillshotType.SkillshotLine);
 
+            // Drawings
+            Circles.Add("Q Range", Q);
+
             // Spell usage
             var cMenu = new Menu("Combo", "combo");
             cMenu.AddItem(new MenuItem("combomana", "Minimum mana %")).SetValue(new Slider(5));
@@ -51,9 +54,6 @@ namespace ProSeries.Champions
             mMenu.AddItem(new MenuItem("useqimm", "Use Q on Immobile", true)).SetValue(true);
             mMenu.AddItem(new MenuItem("useqdash", "Use Q on Dashing", true)).SetValue(true);
             ProSeries.Config.AddSubMenu(mMenu);
-
-            // Drawings
-            Circles.Add("Q Range", Q);
 
             // Events
             Game.OnUpdate += Game_OnUpdate;
@@ -87,25 +87,27 @@ namespace ProSeries.Champions
             if (ProSeries.CanCombo())
             {
                 var qtarget = TargetSelector.GetTargetNoCollision(Q);
-                if (qtarget.IsValidTarget() && ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
+                if (qtarget.IsValidTarget() && Q.IsReady())
                 {
-                    Q.Cast(qtarget.ServerPosition);            
+                    if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
+                        Q.CastIfHitchanceEquals(qtarget, HitChance.Medium);
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
                 if (wtarget.IsValidTarget() && W.IsReady())
                 {
                     if (ProSeries.Config.Item("usecombow", true).GetValue<bool>())
-                        W.Cast(wtarget.ServerPosition);
+                        W.CastIfHitchanceEquals(wtarget, HitChance.Medium);
                 }
             }
 
             if (ProSeries.CanHarass())
             {
                 var qtarget = TargetSelector.GetTargetNoCollision(Q);
-                if (qtarget.IsValidTarget() && ProSeries.Config.Item("useharassq", true).GetValue<bool>())
+                if (qtarget.IsValidTarget() && Q.IsReady())
                 {
-                    Q.Cast(qtarget.ServerPosition);
+                    if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
+                        Q.CastIfHitchanceEquals(qtarget, HitChance.Medium);
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
