@@ -57,18 +57,24 @@ namespace ProSeries
 
         internal static bool CanCombo()
         {
+            // "usecombo" keybind required
+            // "combomana" slider required
             return Config.Item("usecombo").GetValue<KeyBind>().Active &&
                    Player.Mana / Player.MaxMana * 100 > Config.Item("combomana").GetValue<Slider>().Value;
         }
 
         internal static bool CanHarass()
-        {
+
+        {   // "harasscombo" keybind required
+            // "harassmana" slider required
             return Config.Item("useharass").GetValue<KeyBind>().Active &&
                   Player.Mana / Player.MaxMana * 100 > Config.Item("harassmana").GetValue<Slider>().Value;           
         }
 
         internal static bool CanClear()
-        {
+        {            
+            // "clearcombo" keybind required
+            // "clearmana" slider required
             return Config.Item("useclear").GetValue<KeyBind>().Active &&
                   Player.Mana / Player.MaxMana * 100 > Config.Item("clearmana").GetValue<Slider>().Value;               
         }
