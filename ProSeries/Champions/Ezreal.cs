@@ -154,7 +154,7 @@ namespace ProSeries.Champions
                                 .Where(
                                     m =>
                                         m.IsValidTarget(600) &&
-                                        ProSeries.JungleCreeps.Any(name => m.Name.StartsWith(name)) &&
+                                        ProSeries.Creeps.Any(name => m.Name.StartsWith(name)) &&
                                         !m.Name.Contains("Mini")))
                     {
                         if (ProSeries.Config.Item("useclearq", true).GetValue<bool>())

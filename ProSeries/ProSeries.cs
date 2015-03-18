@@ -55,13 +55,25 @@ namespace ProSeries
             }
         }
 
-        internal static bool EnoughMana(bool active, int manasetting)
+        internal static bool CanCombo()
         {
-            var myMana = Player.Mana/Player.MaxMana*100;
-            return active && myMana > manasetting;
+            return Config.Item("usecombo").GetValue<KeyBind>().Active &&
+                   Player.Mana / Player.MaxMana * 100 > Config.Item("combomana").GetValue<Slider>().Value;
         }
 
-        internal static string[] JungleCreeps =
+        internal static bool CanHarass()
+        {
+            return Config.Item("useharass").GetValue<KeyBind>().Active &&
+                  Player.Mana / Player.MaxMana * 100 > Config.Item("harassmana").GetValue<Slider>().Value;           
+        }
+
+        internal static bool CanClear()
+        {
+            return Config.Item("useclear").GetValue<KeyBind>().Active &&
+                  Player.Mana / Player.MaxMana * 100 > Config.Item("clearmana").GetValue<Slider>().Value;               
+        }
+
+        internal static string[] Creeps =
         {
             "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
             "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp"

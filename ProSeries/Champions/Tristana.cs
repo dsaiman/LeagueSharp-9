@@ -82,9 +82,7 @@ namespace ProSeries.Champions
                 return;
             }
 
-            if (ProSeries.EnoughMana(
-                ProSeries.Config.Item("usecombo").GetValue<KeyBind>().Active,
-                ProSeries.Config.Item("combomana").GetValue<Slider>().Value))
+            if (ProSeries.CanCombo())
             {
                 if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>() &&
                     target.IsValid<Obj_AI_Hero>())
@@ -101,9 +99,7 @@ namespace ProSeries.Champions
 
             }
 
-            if (ProSeries.EnoughMana(
-                ProSeries.Config.Item("useharass").GetValue<KeyBind>().Active,
-                ProSeries.Config.Item("harassmana").GetValue<Slider>().Value))
+            if (ProSeries.CanHarass())
             {
                 if (ProSeries.Config.Item("useharassq", true).GetValue<bool>() &&
                     target.IsValid<Obj_AI_Hero>())
@@ -120,9 +116,7 @@ namespace ProSeries.Champions
 
             }
 
-            if (ProSeries.EnoughMana(
-                ProSeries.Config.Item("useclear").GetValue<KeyBind>().Active,
-                ProSeries.Config.Item("clearmana").GetValue<Slider>().Value))
+            if (ProSeries.CanClear())
             {
                 if (ProSeries.Config.Item("useclearq", true).GetValue<bool>() &&
                     target.IsValid<Obj_AI_Minion>())
