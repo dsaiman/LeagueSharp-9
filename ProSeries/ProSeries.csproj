@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Champions\Ezreal.cs" />
     <Compile Include="Champions\_Ashe.cs" />
     <Compile Include="Champions\_Caitlyn.cs" />
     <Compile Include="Champions\_Corki.cs" />
@@ -66,7 +67,7 @@
     <Compile Include="Champions\_Lucian.cs" />
     <Compile Include="Champions\_MissFortune.cs" />
     <Compile Include="Champions\Sivir.cs" />
-    <Compile Include="Champions\_Tristana.cs" />
+    <Compile Include="Champions\Tristana.cs" />
     <Compile Include="Champions\_Twitch.cs" />
     <Compile Include="Champions\_Varus.cs" />
     <Compile Include="Program.cs" />

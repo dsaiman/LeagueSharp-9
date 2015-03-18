@@ -25,16 +25,16 @@ namespace ProSeries
                 Config = new Menu("ProSeries", "ProSeries", true);
 
                 //Add the target selector.
-                TargetSelector.AddToMenu(Config.SubMenu("Target selector"));
+                TargetSelector.AddToMenu(Config.SubMenu("Selector"));
 
                 //Add the orbwalking.
-                Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
-
-                //Add ADC items usage.
-                ItemManager.Load();
+                Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalker"));
 
                 //Load the crosshair
                 Crosshair.Load();
+
+                //Add ADC items usage.
+                //ItemManager.Load();
 
                 //Check if the champion is supported
                 try
@@ -54,5 +54,35 @@ namespace ProSeries
                 Console.WriteLine(e);
             }
         }
+
+        internal static bool CanCombo()
+        {
+            // "usecombo" keybind required
+            // "combomana" slider required
+            return Config.Item("usecombo").GetValue<KeyBind>().Active &&
+                   Player.Mana / Player.MaxMana * 100 > Config.Item("combomana").GetValue<Slider>().Value;
+        }
+
+        internal static bool CanHarass()
+
+        {   // "harasscombo" keybind required
+            // "harassmana" slider required
+            return Config.Item("useharass").GetValue<KeyBind>().Active &&
+                  Player.Mana / Player.MaxMana * 100 > Config.Item("harassmana").GetValue<Slider>().Value;           
+        }
+
+        internal static bool CanClear()
+        {            
+            // "clearcombo" keybind required
+            // "clearmana" slider required
+            return Config.Item("useclear").GetValue<KeyBind>().Active &&
+                  Player.Mana / Player.MaxMana * 100 > Config.Item("clearmana").GetValue<Slider>().Value;               
+        }
+
+        internal static string[] Creeps =
+        {
+            "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
+            "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp"
+        };
     }
 }
