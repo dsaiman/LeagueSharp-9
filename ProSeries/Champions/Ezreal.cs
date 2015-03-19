@@ -73,11 +73,11 @@ namespace ProSeries.Champions
                 return;
             }
 
-            var targetAsHero = (Obj_AI_Hero)target;
-            if (ProSeries.Player.GetSpellDamage(targetAsHero, SpellSlot.Q) / Q.Delay >
-            ProSeries.Player.GetAutoAttackDamage(targetAsHero, true) * (1 / ProSeries.Player.AttackDelay))
+            var targetAsHero = (Obj_AI_Hero) target;
+            if (ProSeries.Player.GetSpellDamage(targetAsHero, SpellSlot.R)/R.Delay >
+                ProSeries.Player.GetAutoAttackDamage(targetAsHero, true)*(1/ProSeries.Player.AttackDelay))
             {
-                Q.Cast(targetAsHero);
+                R.CastIfHitchanceEquals(targetAsHero, HitChance.Medium);
             }
         }
 
@@ -149,7 +149,8 @@ namespace ProSeries.Champions
 
                     foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range)))
                     {
-                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health && !minion.IsDead)
+                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health && !minion.IsDead &&
+                          !(ProSeries.Player.GetAutoAttackDamage(minion) >= minion.Health))
                         {
                             if (ProSeries.Config.Item("useclearq", true).GetValue<bool>())
                                 Q.CastIfHitchanceEquals(minion, HitChance.Low);
