@@ -57,28 +57,6 @@ namespace ProSeries.Champions
 
             // Events
             Game.OnUpdate += Game_OnUpdate;
-            Orbwalking.AfterAttack += Orbwalking_AfterAttack;
-
-        }
-
-        internal static void Orbwalking_AfterAttack(AttackableUnit unit, AttackableUnit target)
-        {
-            if (!unit.IsValid || !unit.IsMe)
-            {
-                return;
-            }
-
-            if (!target.IsValid<Obj_AI_Hero>())
-            {
-                return;
-            }
-
-            var targetAsHero = (Obj_AI_Hero) target;
-            if (ProSeries.Player.GetSpellDamage(targetAsHero, SpellSlot.R)/R.Delay >
-                ProSeries.Player.GetAutoAttackDamage(targetAsHero, true)*(1/ProSeries.Player.AttackDelay))
-            {
-                R.CastIfHitchanceEquals(targetAsHero, HitChance.Medium);
-            }
         }
 
         internal static void Game_OnUpdate(EventArgs args)
@@ -149,9 +127,14 @@ namespace ProSeries.Champions
 
                     foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range)))
                     {
-                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health && !minion.IsDead &&
-                          !(ProSeries.Player.GetAutoAttackDamage(minion) >= minion.Health))
+                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health && !minion.IsDead)
                         {
+                            if (ProSeries.Player.GetAutoAttackDamage(minion) >= minion.Health &&
+                                ProSeries.Player.Spellbook.IsAutoAttacking)
+                            {
+                                return;
+                            }
+
                             if (ProSeries.Config.Item("useclearq", true).GetValue<bool>())
                                 Q.CastIfHitchanceEquals(minion, HitChance.Low);
                         }
