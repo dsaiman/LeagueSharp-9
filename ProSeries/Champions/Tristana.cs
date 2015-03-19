@@ -89,14 +89,6 @@ namespace ProSeries.Champions
                 {
                     Q.Cast();
                 }
-
-                if (ProSeries.Config.Item("usecomboe", true).GetValue<bool>() &&
-                    target.IsValid<Obj_AI_Hero>())
-                {
-                    var targetAsBase = (Obj_AI_Base) target;
-                    E.CastOnUnit(targetAsBase);
-                }
-
             }
 
             if (ProSeries.CanHarass())
@@ -106,14 +98,6 @@ namespace ProSeries.Champions
                 {
                     Q.Cast();
                 }
-
-                if (ProSeries.Config.Item("useharasse", true).GetValue<bool>() &&
-                    target.IsValid<Obj_AI_Hero>())
-                {
-                    var targetAsBase = (Obj_AI_Base) target;
-                    E.Cast(targetAsBase);
-                }
-
             }
 
             if (ProSeries.CanClear())
@@ -129,6 +113,28 @@ namespace ProSeries.Champions
         internal static void Game_OnUpdate(EventArgs args)
         {
             TrueRange = 545 + (7*ProSeries.Player.Level);
+
+            if (ProSeries.CanCombo())
+            {
+                var etarget = TargetSelector.GetTarget(TrueRange, TargetSelector.DamageType.Physical);
+                if (ProSeries.Config.Item("usecomboe", true).GetValue<bool>() &&
+                    etarget.IsValid<Obj_AI_Hero>())
+                {
+                    E.CastOnUnit(etarget);
+                }
+
+            }
+
+            if (ProSeries.CanHarass())
+            {
+                var etarget = TargetSelector.GetTarget(TrueRange, TargetSelector.DamageType.Physical);
+                if (ProSeries.Config.Item("useharasse", true).GetValue<bool>() &&
+                    etarget.IsValid<Obj_AI_Hero>())
+                {
+                    E.CastOnUnit(etarget);
+                }
+
+            }
 
             if (R.IsReady())
             {
