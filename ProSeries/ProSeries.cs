@@ -33,9 +33,6 @@ namespace ProSeries
                 //Load the crosshair
                 Crosshair.Load();
 
-                //Add ADC items usage.
-                //ItemManager.Load();
-
                 //Check if the champion is supported
                 try
                 {
@@ -45,6 +42,9 @@ namespace ProSeries
                 {
                     Game.PrintChat(Player.ChampionName + " is not supported yet! however the orbwalking will work");
                 }
+
+                //Add ADC items usage.
+                ItemManager.Load();
 
                 //Add the menu as main menu.
                 Config.AddToMainMenu();

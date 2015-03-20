@@ -15,7 +15,8 @@ namespace ProSeries.Utils.Drawings
             { "Ezreal", SpellSlot.R },
             { "Graves", SpellSlot.R },
             { "Jinx", SpellSlot.R },
-            { "Varus", SpellSlot.Q }
+            { "Varus", SpellSlot.Q },
+            { "Ashe", SpellSlot.R }
         };
 
         private static Vector2 DrawPosition
