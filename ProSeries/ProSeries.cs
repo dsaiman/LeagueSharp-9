@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using LeagueSharp;
 using LeagueSharp.Common;
 using ProSeries.Utils;
@@ -77,6 +79,22 @@ namespace ProSeries
             // "clearmana" slider required
             return Config.Item("useclear").GetValue<KeyBind>().Active &&
                   Player.Mana / Player.MaxMana * 100 > Config.Item("clearmana").GetValue<Slider>().Value;               
+        }
+
+        internal static IEnumerable<Obj_AI_Minion> JungleMobsInRange(float range)
+        {
+            var names = new[]
+            {
+                "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
+                "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp"
+            };
+
+            var minions = from minion in ObjectManager.Get<Obj_AI_Minion>()
+                where minion.IsValidTarget(range) && !minion.Name.Contains("Mini")
+                where names.Any(name => minion.Name.StartsWith(name))
+                select minion;
+
+            return minions;
         }
 
         internal static string[] Creeps =

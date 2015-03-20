@@ -57,6 +57,27 @@ namespace ProSeries.Champions
 
             // Events
             Game.OnUpdate += Game_OnUpdate;
+            Orbwalking.AfterAttack += Orbwalking_AfterAttack;
+        }
+
+        private static void Orbwalking_AfterAttack(AttackableUnit unit, AttackableUnit target)
+        {
+            if (!unit.IsValid || !unit.IsMe)
+            {
+                return;
+            }
+
+            if (!target.IsValid<Obj_AI_Hero>())
+            {
+                return;
+            }
+
+            var targetAsHero = (Obj_AI_Hero) target;
+            if (ProSeries.Player.GetSpellDamage(targetAsHero, SpellSlot.Q)/Q.Delay >
+                ProSeries.Player.GetAutoAttackDamage(targetAsHero, true)*(1/ProSeries.Player.AttackDelay))
+            {
+                Q.Cast(targetAsHero);
+            }
         }
 
         internal static void Game_OnUpdate(EventArgs args)
@@ -68,14 +89,14 @@ namespace ProSeries.Champions
                 if (qtarget.IsValidTarget() && Q.IsReady())
                 {
                     if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
-                        Q.CastIfHitchanceEquals(qtarget, HitChance.Medium);
+                        Q.Cast(qtarget);
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
                 if (wtarget.IsValidTarget() && W.IsReady())
                 {
                     if (ProSeries.Config.Item("usecombow", true).GetValue<bool>())
-                        W.CastIfHitchanceEquals(wtarget, HitChance.Medium);
+                        W.Cast(wtarget);
                 }
             }
 
@@ -85,14 +106,14 @@ namespace ProSeries.Champions
                 if (qtarget.IsValidTarget() && Q.IsReady())
                 {
                     if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
-                        Q.CastIfHitchanceEquals(qtarget, HitChance.Medium);
+                        Q.Cast(qtarget);
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
                 if (wtarget.IsValidTarget() && W.IsReady())
                 {
                     if (ProSeries.Config.Item("useharassw", true).GetValue<bool>())
-                        W.Cast(wtarget.ServerPosition);
+                        W.Cast(wtarget);
                 }
             }
 
@@ -110,33 +131,18 @@ namespace ProSeries.Champions
 
             if (Q.IsReady())
             {
-                if (ProSeries.CanClear())
+                if (ProSeries.CanClear() && ProSeries.Config.Item("useclearq", true).GetValue<bool>())
                 {
-                    foreach (
-                        var jmin in
-                            ObjectManager.Get<Obj_AI_Minion>()
-                                .Where(
-                                    m =>
-                                        m.IsValidTarget(600) &&
-                                        ProSeries.Creeps.Any(name => m.Name.StartsWith(name)) &&
-                                        !m.Name.Contains("Mini")))
+                    foreach (var neutral in ProSeries.JungleMobsInRange(650))
                     {
-                        if (ProSeries.Config.Item("useclearq", true).GetValue<bool>())
-                            Q.CastIfHitchanceEquals(jmin, HitChance.Low);
+                        Q.Cast(neutral);
                     }
 
                     foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range)))
                     {
-                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health && !minion.IsDead)
+                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health)
                         {
-                            if (ProSeries.Player.GetAutoAttackDamage(minion) >= minion.Health &&
-                                ProSeries.Player.Spellbook.IsAutoAttacking)
-                            {
-                                return;
-                            }
-
-                            if (ProSeries.Config.Item("useclearq", true).GetValue<bool>())
-                                Q.CastIfHitchanceEquals(minion, HitChance.Low);
+                            Q.Cast(minion);
                         }
                     }
                 }
@@ -153,7 +159,7 @@ namespace ProSeries.Champions
 
                     if (target.Health - aaDamage <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
                     {
-                        R.CastIfHitchanceEquals(target, HitChance.Medium);
+                        R.Cast(target);
                     }
                 }
             }

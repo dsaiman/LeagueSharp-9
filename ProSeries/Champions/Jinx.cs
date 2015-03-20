@@ -131,7 +131,7 @@ namespace ProSeries.Champions
 
                     if (target.Health - aaDamage <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
                     {
-                        R.CastIfHitchanceEquals(target, HitChance.Medium);
+                        R.Cast(target);
                     }
                 }
             }
