@@ -39,7 +39,7 @@ namespace ProSeries.Champions
             var hMenu = new Menu("Harass", "harass");
             hMenu.AddItem(new MenuItem("harassmana", "Minimum mana %")).SetValue(new Slider(55));
             hMenu.AddItem(new MenuItem("useharassq", "Use Mystic Shot", true).SetValue(true));
-            hMenu.AddItem(new MenuItem("useharassw", "Use Essence Flux", false).SetValue(true));
+            hMenu.AddItem(new MenuItem("useharassw", "Use Essence Flux", true).SetValue(true));
             hMenu.AddItem(new MenuItem("useharass", "Harass (active)")).SetValue(new KeyBind(67, KeyBindType.Press));
             ProSeries.Config.AddSubMenu(hMenu);
 
@@ -129,21 +129,20 @@ namespace ProSeries.Champions
                 }
             }
 
-            if (Q.IsReady())
+            if (ProSeries.CanClear())
             {
-                if (ProSeries.CanClear() && ProSeries.Config.Item("useclearq", true).GetValue<bool>())
+                foreach (var neutral in ProSeries.JungleMobsInRange(650))
                 {
-                    foreach (var neutral in ProSeries.JungleMobsInRange(650))
-                    {
+                    if (ProSeries.Config.Item("useclearq", true).GetValue<bool>())
                         Q.Cast(neutral);
-                    }
+                }
 
-                    foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range)))
+                foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(m => m.IsValidTarget(Q.Range)))
+                {
+                    if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health &&
+                        ProSeries.Config.Item("useclearq", true).GetValue<bool>())
                     {
-                        if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health)
-                        {
-                            Q.Cast(minion);
-                        }
+                        Q.Cast(minion);
                     }
                 }
             }

@@ -68,7 +68,7 @@
     <Compile Include="Champions\_MissFortune.cs" />
     <Compile Include="Champions\Sivir.cs" />
     <Compile Include="Champions\Tristana.cs" />
-    <Compile Include="Champions\_Twitch.cs" />
+    <Compile Include="Champions\Twitch.cs" />
     <Compile Include="Champions\_Varus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AssemblyInfo.cs" />
