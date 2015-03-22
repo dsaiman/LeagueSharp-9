@@ -14,7 +14,7 @@ namespace ProSeries.Utils
 
         static ItemManager()
         {
-            Game.OnGameUpdate += Game_OnGameUpdate;
+            Game.OnUpdate += Game_OnUpdate;
         }
 
         private static Menu ItemsSubMenu
@@ -33,8 +33,10 @@ namespace ProSeries.Utils
             q.ToList().ForEach(t => LoadItem((Item) Activator.CreateInstance(t)));
         }
 
-        private static void Game_OnGameUpdate(EventArgs args)
+        private static void Game_OnUpdate(EventArgs args)
         {
+            Items.Where(item => item.IsActive).ToList().ForEach(item => item.OnUpdate());
+
             if (ProSeries.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 return;

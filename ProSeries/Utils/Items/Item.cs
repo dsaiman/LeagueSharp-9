@@ -1,4 +1,6 @@
-﻿using LeagueSharp.Common;
+﻿using System;
+using LeagueSharp;
+using LeagueSharp.Common;
 
 namespace ProSeries.Utils.Items
 {
@@ -21,6 +23,19 @@ namespace ProSeries.Utils.Items
             return this;
         }
 
-        public virtual void Use() {}
+        public virtual void OnUpdate()
+        {
+
+        }
+
+        public virtual void OnSpellCast()
+        {
+
+        }
+
+        public virtual void Use()
+        {
+            
+        }
     }
 }
