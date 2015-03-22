@@ -81,8 +81,7 @@ namespace ProSeries.Champions
         }
 
         internal static void Game_OnUpdate(EventArgs args)
-        { 
-
+        {
             if (ProSeries.CanCombo())
             {
                 var qtarget = TargetSelector.GetTargetNoCollision(Q);

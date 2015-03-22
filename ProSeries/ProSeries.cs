@@ -96,11 +96,5 @@ namespace ProSeries
 
             return minions;
         }
-
-        internal static string[] Creeps =
-        {
-            "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
-            "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp"
-        };
     }
 }
