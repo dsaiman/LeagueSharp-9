@@ -6,14 +6,14 @@ using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
-    public static class Sivir
+    public class Sivir
     {
         internal static Spell QCombo;
         internal static Spell QHarass;
         internal static Spell W;
         internal static Spell E;
 
-        public static void Load()
+        public Sivir()
         {
             QCombo = new Spell(SpellSlot.Q, 1250);
             QCombo.SetSkillshot(0.25f, 90f, 1350f, false, SkillshotType.SkillshotLine);

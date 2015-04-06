@@ -28,11 +28,6 @@ namespace ProSeries.Utils.Items
 
         }
 
-        public virtual void OnSpellCast()
-        {
-
-        }
-
         public virtual void Use()
         {
             

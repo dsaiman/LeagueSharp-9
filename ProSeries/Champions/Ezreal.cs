@@ -6,13 +6,13 @@ using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
-    public static class Ezreal
+    public class Ezreal
     {
         internal static Spell Q;
         internal static Spell W;
         internal static Spell R;
 
-        public static void Load()
+        public Ezreal()
         {
             // Load spells
             Q = new Spell(SpellSlot.Q, 1190);

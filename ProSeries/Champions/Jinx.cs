@@ -6,13 +6,13 @@ using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
-    public static class Jinx
+    public class Jinx
     {
         internal static Spell W;
         internal static Spell E;
         internal static Spell R;
 
-        public static void Load()
+        public Jinx()
         {
             //Load spells
             W = new Spell(SpellSlot.W, 1500f);

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using LeagueSharp;
 using LeagueSharp.Common;
+using Proseries.Utils;
 using ProSeries.Utils;
 using ProSeries.Utils.Drawings;
 
@@ -12,14 +13,12 @@ namespace ProSeries
     {
         internal static Menu Config;
         internal static Orbwalking.Orbwalker Orbwalker;
-        internal static Obj_AI_Hero Player;
+        internal static Obj_AI_Hero Player = ObjectManager.Player;
 
         internal static void Load()
         {
             try
             {
-                Player = ObjectManager.Player;
-
                 //Print the welcome message
                 Game.PrintChat("Pro Series Loaded!");
 
@@ -38,7 +37,11 @@ namespace ProSeries
                 //Check if the champion is supported
                 try
                 {
-                    Type.GetType("ProSeries.Champions." + Player.ChampionName).GetMethod("Load").Invoke(null, null);
+                    var type = Type.GetType("ProSeries.Champions." + Player.ChampionName);
+                    if (type != null)
+                    {
+                        DynamicInitializer.NewInstance(type);
+                    }
                 }
                 catch (NullReferenceException)
                 {

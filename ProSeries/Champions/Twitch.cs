@@ -7,12 +7,12 @@ using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
-    public static class Twitch
+    public class Twitch
     {
         internal static Spell W;
         internal static Spell E;
 
-        public static void Load()
+        public Twitch()
         {
             W = new Spell(SpellSlot.W, 950);
             W.SetSkillshot(0.25f, 120f, 1400f, false, SkillshotType.SkillshotCircle);

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProSeries.Champions
 {
-    public static class _Varus
+    public class _Varus
     {
-        public static void Load()
+        public void Load()
         {
 
         }

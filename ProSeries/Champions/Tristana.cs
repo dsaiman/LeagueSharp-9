@@ -5,13 +5,13 @@ using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
-    public static class Tristana
+    public class Tristana
     {
         internal static Spell Q;
         internal static Spell E;
         internal static Spell R;
         internal static float TrueRange;
-        public static void Load()
+        public Tristana()
         {
             // Set spels
             Q = new Spell(SpellSlot.Q, 545);

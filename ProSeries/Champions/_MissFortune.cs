@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProSeries.Champions
 {
-    public static class _MissFortune
+    public class _MissFortune
     {
-        public static void Load()
+        public void Load()
         {
 
         }

@@ -36,16 +36,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LeagueSharp">
-      <HintPath>C:\Program Files (x86)\LeagueSharp\\System\LeagueSharp.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\LeagueSharp\System\LeagueSharp.dll</HintPath>
     </Reference>
     <Reference Include="LeagueSharp.Common">
-      <HintPath>C:\Program Files (x86)\LeagueSharp\\System\LeagueSharp.Common.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\LeagueSharp\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>C:\Program Files (x86)\LeagueSharp\\System\SharpDX.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\LeagueSharp\System\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX.Direct3D9">
-      <HintPath>C:\Program Files (x86)\LeagueSharp\\System\SharpDX.Direct3D9.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\LeagueSharp\System\SharpDX.Direct3D9.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -79,8 +79,10 @@
     </Compile>
     <Compile Include="ProSeries.cs" />
     <Compile Include="Utils\Drawings\Circles.cs" />
+    <Compile Include="Utils\DynamicInitializer.cs" />
     <Compile Include="Utils\ItemManager.cs" />
     <Compile Include="Utils\Items\Item.cs" />
+    <Compile Include="Utils\Items\_3042.cs" />
     <Compile Include="Utils\Items\_3142.cs" />
     <Compile Include="Utils\Items\_3144.cs" />
     <Compile Include="Utils\Items\_3153.cs" />

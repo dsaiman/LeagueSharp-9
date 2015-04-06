@@ -18,20 +18,13 @@ namespace ProSeries.Utils.Items
 
         internal override int Id
         {
-            get { return Game.MapId == GameMapId.CrystalScar ? 3043 : 3042; }
+            get { return 3042; }
         }
 
-        internal static bool CanMuramana;
-        internal static string[] ValidList =
-        {
-            "ezrealmysticshot", "ezrealtrueshotbarrage", "ezrealarcaneshift",
-            "urgotheatseekinglineqqmissile", "urgotheatseekingmissile", "volley",
-            "lucianq", "lucianr"
-        };
-
+        internal static bool Canmuramana;
         public override void OnUpdate()
         {
-            if (!CanMuramana)
+            if (!Canmuramana)
             {
                 var manamune = ProSeries.Player.GetSpellSlot("Muramana");
                 if (manamune != SpellSlot.Unknown && ProSeries.Player.HasBuff("Muramana"))
@@ -43,13 +36,13 @@ namespace ProSeries.Utils.Items
 
         public override void Use()
         {
-            if (CanMuramana)
+            if (Canmuramana)
             {
                 var manamune = ProSeries.Player.GetSpellSlot("Muramana");
                 if (manamune != SpellSlot.Unknown && !ProSeries.Player.HasBuff("Muramana"))
                 {
                     ProSeries.Player.Spellbook.CastSpell(manamune);
-                    Utility.DelayAction.Add(400, () => CanMuramana = false);
+                    Utility.DelayAction.Add(400, () => Canmuramana = false);
                 }
             }
         }
@@ -61,22 +54,19 @@ namespace ProSeries.Utils.Items
                 return;
             }
 
-            foreach (var sname in ValidList)
-            {
-                if (sname == args.SData.Name.ToLower())
-                    CanMuramana = true;
-            }
+            if (args.SData.HaveHitEffect)
+                Canmuramana = true;
 
             if (args.SData.IsAutoAttack() &&
                (ProSeries.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo ||
                 args.Target.Type == GameObjectType.obj_AI_Hero))
             {
-                CanMuramana = true;
+                Canmuramana = true;
             }
 
             else
             {
-                Utility.DelayAction.Add(400, () => CanMuramana = false);
+                Utility.DelayAction.Add(400, () => Canmuramana = false);
             }
 
         }

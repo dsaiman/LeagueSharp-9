@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ProSeries.Champions
 {
-    public static class _KogMaw
+    public class _KogMaw
     {
-        public static void Load()
+        public void Load()
         {
 
         }
