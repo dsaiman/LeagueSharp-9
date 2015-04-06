@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _Graves
     {
-        public  void Load()
+        public _Graves()
         {
 
         }

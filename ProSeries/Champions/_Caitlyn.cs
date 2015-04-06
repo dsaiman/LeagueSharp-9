@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _Caitlyn
     {
-        public void Load()
+        public _Caitlyn()
         {
 
         }

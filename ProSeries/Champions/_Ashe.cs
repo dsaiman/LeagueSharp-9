@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _Ashe
     {
-        public void Load()
+        public _Ashe()
         {
             
         }

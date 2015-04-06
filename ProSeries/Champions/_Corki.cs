@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _Corki
     {
-        public  void Load()
+        public _Corki()
         {
 
         }

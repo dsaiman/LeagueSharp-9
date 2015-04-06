@@ -63,7 +63,7 @@
     <Compile Include="Champions\_Corki.cs" />
     <Compile Include="Champions\_Graves.cs" />
     <Compile Include="Champions\Jinx.cs" />
-    <Compile Include="Champions\_KogMaw.cs" />
+    <Compile Include="Champions\KogMaw.cs" />
     <Compile Include="Champions\_Lucian.cs" />
     <Compile Include="Champions\_MissFortune.cs" />
     <Compile Include="Champions\Sivir.cs" />

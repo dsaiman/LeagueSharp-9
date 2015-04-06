@@ -55,7 +55,7 @@ namespace ProSeries.Champions
             ProSeries.Config.AddSubMenu(fMenu);
 
             var mMenu = new Menu("Misc", "Misc");
-            mMenu.AddItem(new MenuItem("usergap", "Use R on gapcloser", true)).SetValue(true);
+            mMenu.AddItem(new MenuItem("usergap", "Use R on Gapcloser", true)).SetValue(true);
             ProSeries.Config.AddSubMenu(mMenu);
 
             // Events

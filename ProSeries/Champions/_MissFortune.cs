@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _MissFortune
     {
-        public void Load()
+        public _MissFortune()
         {
 
         }

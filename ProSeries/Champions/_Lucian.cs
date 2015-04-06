@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _Lucian
     {
-        public void Load()
+        public _Lucian()
         {
 
         }

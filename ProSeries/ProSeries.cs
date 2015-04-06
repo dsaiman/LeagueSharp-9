@@ -60,6 +60,18 @@ namespace ProSeries
             }
         }
 
+        internal static void WhiteList(Menu menu, string mode)
+        {
+            var wList = new Menu(mode + " Whitelist", mode + "wl");
+            foreach (var enemy in HeroManager.Enemies)
+            {
+                wList.AddItem(new MenuItem("hwl" + enemy.ChampionName, enemy.ChampionName))
+                    .SetValue(TargetSelector.GetPriority(enemy) >= 2);
+            }
+
+            menu.AddSubMenu(wList);
+        }
+
         internal static bool CanCombo()
         {
             // "usecombo" keybind required

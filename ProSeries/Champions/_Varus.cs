@@ -8,7 +8,7 @@ namespace ProSeries.Champions
 {
     public class _Varus
     {
-        public void Load()
+        public _Varus()
         {
 
         }
