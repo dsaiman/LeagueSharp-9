@@ -16,11 +16,12 @@ namespace ProSeries.Champions
         {
             //Load spells
             W = new Spell(SpellSlot.W, 1500f);
-            E = new Spell(SpellSlot.E, 900f);
-            R = new Spell(SpellSlot.R, 2000);
-
             W.SetSkillshot(0.6f, 60f, 3300f, true, SkillshotType.SkillshotLine);
+
+            E = new Spell(SpellSlot.E, 900f);
             E.SetSkillshot(0.7f, 120f, 1750f, false, SkillshotType.SkillshotCircle);
+
+            R = new Spell(SpellSlot.R, 2000);
             R.SetSkillshot(0.6f, 140f, 1700f, false, SkillshotType.SkillshotLine);
 
             //Drawings
@@ -100,7 +101,7 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
-                if (wtarget.IsValidTarget() && W.IsReady())
+                if (wtarget.IsValidTarget() && W.IsReady() && ProSeries.IsWhiteListed(wtarget))
                 {
                     if (ProSeries.Config.Item("useharassw", true).GetValue<bool>())
                         W.CastIfHitchanceEquals(wtarget, HitChance.Medium);

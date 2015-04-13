@@ -116,20 +116,13 @@ namespace ProSeries.Champions
                 var rtarget = TargetSelector.GetTarget(new[] { 1200f, 1500f, 1800f }[R.Level - 1], TargetSelector.DamageType.Physical);
                 if (rtarget.IsValidTarget() && R.IsReady())
                 {
-                    if (ProSeries.Player.Mana/ProSeries.Player.MaxMana * 100 < 55 && 
-                        ProSeries.Player.Buffs.Count(b => b.Name == "kogmawlivingartillery") < 6)
+                    if (ProSeries.Player.Buffs.Count(b => b.Name == "kogmawlivingartillery") < 6)
                     {
                         if (ProSeries.Config.Item("usecombor", true).GetValue<bool>())
                             R.Cast(rtarget);
                     }
 
-                    else if (ProSeries.Player.Mana / ProSeries.Player.MaxMana * 100 > 55)
-                    {
-                        if (ProSeries.Config.Item("usecombor", true).GetValue<bool>())
-                            R.Cast(rtarget);
-                    }
-
-                    if (R.GetDamage(rtarget)*3 >= rtarget.Health)
+                    if (R.GetDamage(rtarget)*2 >= rtarget.Health)
                     {
                         if (ProSeries.Config.Item("usecombor", true).GetValue<bool>())
                             R.Cast(rtarget);
@@ -140,24 +133,27 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 var qtarget = TargetSelector.GetTargetNoCollision(Q);
-                if (qtarget.IsValidTarget() && Q.IsReady())
+                if (qtarget.IsValidTarget() && Q.IsReady() && ProSeries.IsWhiteListed(qtarget))
                 {
                     if (ProSeries.Config.Item("useharassq", true).GetValue<bool>())
                         Q.Cast(qtarget);
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range + new[] {130,150,170,190,210}[W.Level-1], TargetSelector.DamageType.Physical);
-                if (wtarget.IsValidTarget() && W.IsReady())
+                if (wtarget.IsValidTarget() && W.IsReady() && ProSeries.IsWhiteListed(wtarget))
                 {
                     if (ProSeries.Config.Item("useharassw", true).GetValue<bool>())
                         W.Cast();
                 }
 
                 var rtarget = TargetSelector.GetTarget(new[] {1200f, 1500f, 1800f}[R.Level - 1], TargetSelector.DamageType.Physical);
-                if (rtarget.IsValidTarget() && R.IsReady() && ProSeries.Player.Buffs.Count(b => b.Name == "kogmawlivingartillery") < 3)
+                if (rtarget.IsValidTarget() && R.IsReady() && ProSeries.IsWhiteListed(rtarget))
                 {
-                    if (ProSeries.Config.Item("useharassr", true).GetValue<bool>())
-                        R.Cast(rtarget);                
+                    if (ProSeries.Player.Buffs.Count(b => b.Name == "kogmawlivingartillery") < 3)
+                    {
+                        if (ProSeries.Config.Item("useharassr", true).GetValue<bool>())
+                            R.Cast(rtarget);
+                    }
                 }
             }
         }

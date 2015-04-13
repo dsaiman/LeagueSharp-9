@@ -102,14 +102,14 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 var qtarget = TargetSelector.GetTargetNoCollision(Q);
-                if (qtarget.IsValidTarget() && Q.IsReady())
+                if (qtarget.IsValidTarget() && Q.IsReady() && ProSeries.IsWhiteListed(qtarget))
                 {
                     if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
                         Q.Cast(qtarget);
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
-                if (wtarget.IsValidTarget() && W.IsReady())
+                if (wtarget.IsValidTarget() && W.IsReady() && ProSeries.IsWhiteListed(wtarget))
                 {
                     if (ProSeries.Config.Item("useharassw", true).GetValue<bool>())
                         W.Cast(wtarget);
@@ -141,7 +141,8 @@ namespace ProSeries.Champions
                     if (ProSeries.Player.GetSpellDamage(minion, Q.Slot) >= minion.Health &&
                         ProSeries.Config.Item("useclearq", true).GetValue<bool>())
                     {
-                        Q.Cast(minion);
+                        if (!minion.Name.Contains("Ward"))
+                            Q.Cast(minion);
                     }
                 }
             }

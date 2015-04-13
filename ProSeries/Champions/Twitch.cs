@@ -102,7 +102,7 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 var etarget = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
-                if (etarget.IsValidTarget() && E.IsReady())
+                if (etarget.IsValidTarget() && E.IsReady() && ProSeries.IsWhiteListed(etarget))
                 {
                     foreach (var buff in etarget.Buffs)
                     {
@@ -115,7 +115,7 @@ namespace ProSeries.Champions
                 }
 
                 var wtarget = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
-                if (wtarget.IsValidTarget() && W.IsReady())
+                if (wtarget.IsValidTarget() && W.IsReady() && ProSeries.IsWhiteListed(wtarget))
                 {
                     if (ProSeries.Config.Item("useharassw", true).GetValue<bool>())
                         W.Cast(wtarget);

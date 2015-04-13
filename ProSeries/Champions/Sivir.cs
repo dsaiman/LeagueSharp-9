@@ -110,7 +110,7 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 if (ProSeries.Config.Item("useharassw", true).GetValue<bool>() &&
-                    target.IsValid<Obj_AI_Hero>())
+                    target.IsValid<Obj_AI_Hero>() && ProSeries.IsWhiteListed((Obj_AI_Hero) target))
                 {
                     W.Cast();
                 }
@@ -140,9 +140,12 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 var target = TargetSelector.GetTarget(QHarass.Range, TargetSelector.DamageType.Physical);
-                if (target.IsValidTarget() && ProSeries.Config.Item("useharassq", true).GetValue<bool>())
+                if (target.IsValidTarget() && ProSeries.IsWhiteListed(target))
                 {
-                    CastQ(false);
+                    if (ProSeries.Config.Item("useharassq", true).GetValue<bool>())
+                    {
+                        CastQ(false);
+                    }
                 }
             }
 

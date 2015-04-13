@@ -48,6 +48,16 @@ namespace ProSeries
                     Game.PrintChat(Player.ChampionName + " is not supported yet! however the orbwalking will work");
                 }
 
+                //Load whitelist harass menu
+                var wList = new Menu("Harass Whitelist", "hwl");
+                foreach (var enemy in HeroManager.Enemies)
+                {
+                    wList.AddItem(new MenuItem("hwl" + enemy.ChampionName, enemy.ChampionName))
+                        .SetValue(TargetSelector.GetPriority(enemy) >= 2);
+                }
+
+                Config.SubMenu("harass").AddSubMenu(wList);
+
                 //Add ADC items usage.
                 ItemManager.Load();
 
@@ -58,18 +68,6 @@ namespace ProSeries
             {
                 Console.WriteLine(e);
             }
-        }
-
-        internal static void WhiteList(Menu menu, string mode)
-        {
-            var wList = new Menu(mode + " Whitelist", mode + "wl");
-            foreach (var enemy in HeroManager.Enemies)
-            {
-                wList.AddItem(new MenuItem("hwl" + enemy.ChampionName, enemy.ChampionName))
-                    .SetValue(TargetSelector.GetPriority(enemy) >= 2);
-            }
-
-            menu.AddSubMenu(wList);
         }
 
         internal static bool CanCombo()
@@ -85,7 +83,8 @@ namespace ProSeries
         {   // "harasscombo" keybind required
             // "harassmana" slider required
             return Config.Item("useharass").GetValue<KeyBind>().Active &&
-                  Player.Mana / Player.MaxMana * 100 > Config.Item("harassmana").GetValue<Slider>().Value;           
+                    Player.Mana/Player.MaxMana*100 > Config.Item("harassmana").GetValue<Slider>().Value;
+           
         }
 
         internal static bool CanClear()
@@ -94,6 +93,12 @@ namespace ProSeries
             // "clearmana" slider required
             return Config.Item("useclear").GetValue<KeyBind>().Active &&
                   Player.Mana / Player.MaxMana * 100 > Config.Item("clearmana").GetValue<Slider>().Value;               
+        }
+
+        internal static bool IsWhiteListed(Obj_AI_Hero unit)
+        {
+            // harass whitelist menu required
+            return Config.SubMenu("harass").Item("hwl" + unit.ChampionName).GetValue<bool>();
         }
 
         internal static IEnumerable<Obj_AI_Minion> JungleMobsInRange(float range)

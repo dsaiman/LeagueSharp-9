@@ -94,7 +94,7 @@ namespace ProSeries.Champions
             if (ProSeries.CanHarass())
             {
                 if (ProSeries.Config.Item("useharassq", true).GetValue<bool>() &&
-                    target.IsValid<Obj_AI_Hero>())
+                    target.IsValid<Obj_AI_Hero>() && ProSeries.IsWhiteListed((Obj_AI_Hero) target))
                 {
                     Q.Cast();
                 }
@@ -117,21 +117,20 @@ namespace ProSeries.Champions
             if (ProSeries.CanCombo())
             {
                 var etarget = TargetSelector.GetTarget(TrueRange, TargetSelector.DamageType.Physical);
-                if (ProSeries.Config.Item("usecomboe", true).GetValue<bool>() &&
-                    etarget.IsValid<Obj_AI_Hero>())
+                if (etarget.IsValid<Obj_AI_Hero>() && E.IsReady())
+                if (ProSeries.Config.Item("usecomboe", true).GetValue<bool>())
                 {
-                    E.CastOnUnit(etarget);
+                    E.CastOnUnit(etarget);          
                 }
-
             }
 
             if (ProSeries.CanHarass())
             {
                 var etarget = TargetSelector.GetTarget(TrueRange, TargetSelector.DamageType.Physical);
-                if (ProSeries.Config.Item("useharasse", true).GetValue<bool>() &&
-                    etarget.IsValid<Obj_AI_Hero>())
+                if (etarget.IsValid<Obj_AI_Hero>() && ProSeries.IsWhiteListed(etarget))
                 {
-                    E.CastOnUnit(etarget);
+                    if (ProSeries.Config.Item("useharasse", true).GetValue<bool>())
+                        E.CastOnUnit(etarget);
                 }
 
             }
