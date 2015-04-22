@@ -2,28 +2,32 @@
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using ProSeries.Utils.Drawings;
 
 namespace ProSeries.Champions
 {
     public class Corki
     {
-        internal Spell Q;
-        internal Spell E;
-        internal Spell R;
+        internal static Spell Q;
+        internal static Spell E;
+        internal static Spell R;
 
         public Corki()
         {
-            #region Spells
+            // Spell usage
             Q = new Spell(SpellSlot.Q, 825f);
+            Q.SetSkillshot(0.35f, 250f, 1500f, false, SkillshotType.SkillshotCircle);
+
             E = new Spell(SpellSlot.E, 600f);
+            E.SetSkillshot(0f, (float)(45 * Math.PI / 180), 1500, false, SkillshotType.SkillshotCone);
             R = new Spell(SpellSlot.R);
 
-            Q.SetSkillshot(0.35f, 250f, 1500f, false, SkillshotType.SkillshotCircle);
-            E.SetSkillshot(0f, (float)(45 * Math.PI / 180), 1500, false, SkillshotType.SkillshotCone);
             R.SetSkillshot(0.2f, 40f, 2000f, true, SkillshotType.SkillshotLine);
-            #endregion
 
-            #region Menu
+            // Drawings
+            Circles.Add("Q Range", Q);
+
+            // Menu
             var cMenu = new Menu("Combo", "combo");
             cMenu.AddItem(new MenuItem("combomana", "Minimum mana %")).SetValue(new Slider(5));
             cMenu.AddItem(new MenuItem("usecomboq", "Use Phosphorus Bomb", true).SetValue(true));
@@ -48,52 +52,54 @@ namespace ProSeries.Champions
             fMenu.AddItem(new MenuItem("usecleare", "Use Gatling Gun", true).SetValue(true));
             fMenu.AddItem(new MenuItem("useclear", "Wave/Jungle (active)")).SetValue(new KeyBind(86, KeyBindType.Press));
             ProSeries.Config.AddSubMenu(fMenu);
-            #endregion
 
             Game.OnUpdate += Game_OnUpdate;
         }
 
-        private void Game_OnUpdate(EventArgs args)
+        internal static void Game_OnUpdate(EventArgs args)
         {
-            R.Range = ProSeries.Player.Buffs.Any(h => h.Name.ToLower().Contains("corkimissilebarragecounterbig")) ? 1500f : 1300f;
+            R.Range = ProSeries.Player.Buffs.Any(
+                h => h.Name.ToLower().Contains("corkimissilebarragecounterbig")) ? 1500f : 1300f;
 
             if (ProSeries.CanCombo())
             {
                 var qtarget = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-                if (qtarget != null && Q.IsReady())
+                if (qtarget.IsValidTarget() && Q.IsReady())
                 {
                     if (ProSeries.Config.Item("usecomboq", true).GetValue<bool>())
                         Q.CastIfHitchanceEquals(qtarget, HitChance.High);
                 }
 
                 var etarget = HeroManager.Enemies.FirstOrDefault(h => h.IsValidTarget(E.Range));
-                if (etarget != null && E.IsReady())
+                if (etarget.IsValidTarget() && E.IsReady())
                 {
-                    if (ProSeries.Config.Item("usecomboe", true).GetValue<bool>())
-                        if (E.Cast(etarget) == Spell.CastStates.SuccessfullyCasted)
-                            return;
+                    if (ProSeries.Config.Item("usecomboe", true).GetValue<bool>() &&
+                        E.Cast(etarget) == Spell.CastStates.SuccessfullyCasted)
+                    {
+                        return;
+                    }
                 }
 
                 var rtarget = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Magical);
-                if (rtarget != null && R.IsReady())
+                if (rtarget.IsValidTarget() && R.IsReady())
                 {
                     if (ProSeries.Config.Item("usecombor", true).GetValue<bool>() &&
                         R.Instance.Ammo > ProSeries.Config.Item("savestackscombor", true).GetValue<Slider>().Value)
-                        R.CastIfHitchanceEquals(rtarget, HitChance.High);
+                            R.CastIfHitchanceEquals(rtarget, HitChance.High);
                 }
             }
 
             if (ProSeries.CanHarass())
             {
                 var qtarget = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
-                if (qtarget != null && Q.IsReady())
+                if (qtarget.IsValidTarget() && Q.IsReady() && ProSeries.IsWhiteListed(qtarget))
                 {
                     if (ProSeries.Config.Item("useharassq", true).GetValue<bool>())
                         Q.CastIfHitchanceEquals(qtarget, HitChance.High);
                 }
 
                 var etarget = HeroManager.Enemies.FirstOrDefault(h => h.IsValidTarget(E.Range));
-                if (etarget != null && E.IsReady())
+                if (etarget.IsValidTarget() && E.IsReady() && ProSeries.IsWhiteListed(etarget))
                 {
                     if (ProSeries.Config.Item("useharasse", true).GetValue<bool>())
                         if (E.Cast(etarget) == Spell.CastStates.SuccessfullyCasted)
@@ -101,11 +107,11 @@ namespace ProSeries.Champions
                 }
 
                 var rtarget = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Magical);
-                if (rtarget != null && R.IsReady())
+                if (rtarget.IsValidTarget() && R.IsReady() && ProSeries.IsWhiteListed(rtarget))
                 {
                     if (ProSeries.Config.Item("useharassr", true).GetValue<bool>() &&
                         R.Instance.Ammo > ProSeries.Config.Item("savestacksharassr", true).GetValue<Slider>().Value)
-                        R.CastIfHitchanceEquals(rtarget, HitChance.High);
+                            R.CastIfHitchanceEquals(rtarget, HitChance.High);
                 }
             }
 

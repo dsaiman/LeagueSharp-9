@@ -57,10 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Champions\Corki.cs" />
     <Compile Include="Champions\Ezreal.cs" />
     <Compile Include="Champions\_Ashe.cs" />
     <Compile Include="Champions\_Caitlyn.cs" />
-    <Compile Include="Champions\_Corki.cs" />
     <Compile Include="Champions\_Graves.cs" />
     <Compile Include="Champions\Jinx.cs" />
     <Compile Include="Champions\KogMaw.cs" />
