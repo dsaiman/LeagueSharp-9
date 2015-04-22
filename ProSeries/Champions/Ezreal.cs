@@ -156,7 +156,8 @@ namespace ProSeries.Champions
                         ? ProSeries.Player.GetAutoAttackDamage(target, true)
                         : 0;
 
-                    if (target.Health - aaDamage <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
+                    if (!target.IsZombie &&
+                         target.Health - aaDamage <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
                     {
                         R.Cast(target);
                     }

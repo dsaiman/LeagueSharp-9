@@ -56,22 +56,39 @@ namespace ProSeries.Champions
 
             var mMenu = new Menu("Misc", "Misc");
             mMenu.AddItem(new MenuItem("usergap", "Use R on Gapcloser", true)).SetValue(true);
+            mMenu.AddItem(new MenuItem("userint", "Use R on Interrupt-able Spell", true)).SetValue(true);
             ProSeries.Config.AddSubMenu(mMenu);
 
             // Events
             Game.OnUpdate += Game_OnUpdate;
             Orbwalking.AfterAttack += Orbwalking_AfterAttack;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
+            Interrupter2.OnInterruptableTarget += OnInterrupt2;
 
         }
 
         internal static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
+            if (!R.IsReady())
+                return;
+
             if (ProSeries.Config.Item("usecombo").GetValue<KeyBind>().Active &&
                 ProSeries.Config.Item("usergap", true).GetValue<bool>())
             {
                 if (gapcloser.Sender.IsValidTarget(TrueRange))
                     R.CastOnUnit(gapcloser.Sender);
+            }
+        }
+
+        internal static void OnInterrupt2(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
+        {
+            if (!R.IsReady())
+                return;
+
+            if (ProSeries.Config.Item("userint", true).GetValue<bool>())
+            {
+                if (sender.IsValidTarget(TrueRange))
+                    R.CastOnUnit(sender);
             }
         }
 
@@ -138,10 +155,13 @@ namespace ProSeries.Champions
             if (R.IsReady())
             {
                 var target = TargetSelector.GetTarget(TrueRange, TargetSelector.DamageType.Physical);
-                if (target.IsValidTarget() && ProSeries.Config.Item("usecombor", true).GetValue<bool>())
+                if (target.IsValidTarget() && !target.IsZombie)
                 {
-                    if (target.Health <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
-                        R.CastOnUnit(target);
+                    if (ProSeries.Config.Item("usecombor", true).GetValue<bool>())
+                    {
+                        if (target.Health <= ProSeries.Player.GetSpellDamage(target, SpellSlot.R))
+                            R.CastOnUnit(target);
+                    }
                 }
             }
         }

@@ -22,33 +22,26 @@ namespace ProSeries
                 //Print the welcome message
                 Game.PrintChat("Pro Series Loaded!");
 
-                //Load the menu.
+                // Load the menu.
                 Config = new Menu("ProSeries", "ProSeries", true);
 
-                //Add the target selector.
+                // Add the target selector.
                 TargetSelector.AddToMenu(Config.SubMenu("Selector"));
 
-                //Add the orbwalking.
+                // Add the orbwalking.
                 Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalker"));
 
-                //Load the crosshair
+                // Load the crosshair
                 Crosshair.Load();
 
-                //Check if the champion is supported
-                try
+                // Check if the champion is supported
+                var type = Type.GetType("ProSeries.Champions." + Player.ChampionName);
+                if (type != null)
                 {
-                    var type = Type.GetType("ProSeries.Champions." + Player.ChampionName);
-                    if (type != null)
-                    {
-                        DynamicInitializer.NewInstance(type);
-                    }
-                }
-                catch (NullReferenceException)
-                {
-                    Game.PrintChat(Player.ChampionName + " is not supported yet! however the orbwalking will work");
+                    DynamicInitializer.NewInstance(type);
                 }
 
-                //Load whitelist harass menu
+                // Load whitelist harass menu
                 var wList = new Menu("Harass Whitelist", "hwl");
                 foreach (var enemy in HeroManager.Enemies)
                 {
@@ -58,10 +51,10 @@ namespace ProSeries
 
                 Config.SubMenu("harass").AddSubMenu(wList);
 
-                //Add ADC items usage.
+                // Add ADC items usage.
                 ItemManager.Load();
 
-                //Add the menu as main menu.
+                // Add the menu as main menu.
                 Config.AddToMainMenu();
             }
             catch (Exception e)
@@ -97,7 +90,7 @@ namespace ProSeries
 
         internal static bool IsWhiteListed(Obj_AI_Hero unit)
         {
-            // harass whitelist menu required
+            // "harass" submenu required
             return Config.SubMenu("harass").Item("hwl" + unit.ChampionName).GetValue<bool>();
         }
 
