@@ -33,7 +33,6 @@ namespace ProSeries.Champions
             cMenu.AddItem(new MenuItem("usecomboq", "Use Phosphorus Bomb", true).SetValue(true));
             cMenu.AddItem(new MenuItem("usecomboe", "Use Gatling Gun", true).SetValue(true));
             cMenu.AddItem(new MenuItem("usecombor", "Use Missile Barrage", true).SetValue(true));
-            cMenu.AddItem(new MenuItem("savestackscombor", "Save Missile Barrage Ammo", true).SetValue(new Slider(0, 0, 7)));
             cMenu.AddItem(new MenuItem("usecombo", "Combo (active)")).SetValue(new KeyBind(32, KeyBindType.Press));
             ProSeries.Config.AddSubMenu(cMenu);
 
@@ -42,7 +41,6 @@ namespace ProSeries.Champions
             hMenu.AddItem(new MenuItem("useharassq", "Use Phosphorus Bomb", true).SetValue(true));
             hMenu.AddItem(new MenuItem("useharasse", "Use Gatling Gun", true).SetValue(false));
             hMenu.AddItem(new MenuItem("useharassr", "Use Missile Barrage", true).SetValue(true));
-            hMenu.AddItem(new MenuItem("savestacksharassr", "Save Missile Barrage Ammo", true).SetValue(new Slider(3, 0, 7)));
             hMenu.AddItem(new MenuItem("useharass", "Harass (active)")).SetValue(new KeyBind(67, KeyBindType.Press));
             ProSeries.Config.AddSubMenu(hMenu);
 
@@ -83,9 +81,8 @@ namespace ProSeries.Champions
                 var rtarget = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Magical);
                 if (rtarget.IsValidTarget() && R.IsReady())
                 {
-                    if (ProSeries.Config.Item("usecombor", true).GetValue<bool>() &&
-                        R.Instance.Ammo > ProSeries.Config.Item("savestackscombor", true).GetValue<Slider>().Value)
-                            R.CastIfHitchanceEquals(rtarget, HitChance.High);
+                    if (ProSeries.Config.Item("usecombor", true).GetValue<bool>())
+                        R.CastIfHitchanceEquals(rtarget, HitChance.High);
                 }
             }
 
@@ -109,9 +106,8 @@ namespace ProSeries.Champions
                 var rtarget = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Magical);
                 if (rtarget.IsValidTarget() && R.IsReady() && ProSeries.IsWhiteListed(rtarget))
                 {
-                    if (ProSeries.Config.Item("useharassr", true).GetValue<bool>() &&
-                        R.Instance.Ammo > ProSeries.Config.Item("savestacksharassr", true).GetValue<Slider>().Value)
-                            R.CastIfHitchanceEquals(rtarget, HitChance.High);
+                    if (ProSeries.Config.Item("useharassr", true).GetValue<bool>() && R.Instance.Ammo > 3)
+                        R.CastIfHitchanceEquals(rtarget, HitChance.High);
                 }
             }
 
