@@ -98,8 +98,13 @@ namespace ProSeries
         {
             var names = new[]
             {
+                // summoners rift
                 "SRU_Razorbeak", "SRU_Krug", "Sru_Crab",
-                "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp"
+                "SRU_Baron", "SRU_Dragon", "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp",
+
+                // twisted treeline
+                "TT_NGolem5", "TT_NGolem2", "TT_NWolf6", "TT_NWolf3",
+                "TT_NWraith1", "TT_Spider"
             };
 
             var minions = from minion in ObjectManager.Get<Obj_AI_Minion>()

@@ -40,7 +40,7 @@ namespace ProSeries.Champions
             var hMenu = new Menu("Harass", "harass");
             hMenu.AddItem(new MenuItem("harassmana", "Minimum mana %")).SetValue(new Slider(55));
             hMenu.AddItem(new MenuItem("useharassq", "Use Phosphorus Bomb", true).SetValue(true));
-            hMenu.AddItem(new MenuItem("useharasse", "Use Gatling Gun", true).SetValue(true));
+            hMenu.AddItem(new MenuItem("useharasse", "Use Gatling Gun", true).SetValue(false));
             hMenu.AddItem(new MenuItem("useharassr", "Use Missile Barrage", true).SetValue(true));
             hMenu.AddItem(new MenuItem("savestacksharassr", "Save Missile Barrage Ammo", true).SetValue(new Slider(3, 0, 7)));
             hMenu.AddItem(new MenuItem("useharass", "Harass (active)")).SetValue(new KeyBind(67, KeyBindType.Press));
@@ -48,8 +48,8 @@ namespace ProSeries.Champions
 
             var fMenu = new Menu("Farming", "farming");
             fMenu.AddItem(new MenuItem("clearmana", "Minimum mana %")).SetValue(new Slider(35));
-            fMenu.AddItem(new MenuItem("useclearq", "Use Phosphorus Bomb", true).SetValue(true));
-            fMenu.AddItem(new MenuItem("usecleare", "Use Gatling Gun", true).SetValue(true));
+            fMenu.AddItem(new MenuItem("useclearq", "Use Phosphorus Bomb", true).SetValue(false));
+            fMenu.AddItem(new MenuItem("usecleare", "Use Gatling Gun", true).SetValue(false));
             fMenu.AddItem(new MenuItem("useclear", "Wave/Jungle (active)")).SetValue(new KeyBind(86, KeyBindType.Press));
             ProSeries.Config.AddSubMenu(fMenu);
 
